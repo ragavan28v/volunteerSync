@@ -1,0 +1,23 @@
+﻿import React from "react";
+import { createRoot } from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import "./styles.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
+import { h } from "./utils/h";
+import { App } from "./app";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 15000,
+      retry: 1,
+      refetchOnWindowFocus: false
+    }
+  }
+});
+
+createRoot(document.getElementById("root")).render(
+  h(React.StrictMode, null, h(QueryClientProvider, { client: queryClient }, h(App)))
+);
