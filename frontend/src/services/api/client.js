@@ -2,15 +2,15 @@ import axios from "axios";
 import { useAuthStore } from "../../store/authStore";
 
 const envBaseURL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL;
-const inferredBaseURL =
+const defaultBaseURL =
   typeof window !== "undefined" &&
   window.location &&
   typeof window.location.hostname === "string" &&
-  window.location.hostname.includes("netlify.app")
+  !["localhost", "127.0.0.1"].includes(window.location.hostname)
     ? "https://volunteersync.onrender.com"
-    : null;
+    : "http://localhost:5000";
 
-const baseURL = (envBaseURL || inferredBaseURL || "http://localhost:5000").replace(/\/$/, "");
+const baseURL = (envBaseURL || defaultBaseURL).replace(/\/$/, "");
 export const api = axios.create({
   baseURL,
   withCredentials: true,
