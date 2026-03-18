@@ -369,8 +369,9 @@ async function autoFill(req, res, next) {
       if (!remaining) continue;
 
       const volunteerFilter = requiredSkills.length ? { skills: { $in: requiredSkills } } : {};
-  const restrictionQuery = restrictionsToVolunteerQuery(restrictions);
-      const volunteers = await Volunteer.find(volunteerFilter).limit(2000).lean();
+      const restrictions = normalizeRestrictions(event.restrictions);
+      const restrictionQuery = restrictionsToVolunteerQuery(restrictions);
+      const volunteers = await Volunteer.find({ ...volunteerFilter, ...restrictionQuery }).limit(2000).lean();
       if (!volunteers.length) continue;
 
       const suggestions = suggestVolunteers({
