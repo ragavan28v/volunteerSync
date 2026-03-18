@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { useAuthStore } from "../store/authStore";
 import { useToastStore } from "../store/toastStore";
+import { getApiBaseUrl } from "../utils/apiBaseUrl";
 
 export function useNotificationStream() {
   const token = useAuthStore((s) => s.accessToken);
@@ -12,7 +13,7 @@ export function useNotificationStream() {
   React.useEffect(() => {
     if (!token) return;
 
-    const base = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/$/, "");
+    const base = getApiBaseUrl();
     const url = `${base}/api/notifications/stream?accessToken=${encodeURIComponent(token)}`;
 
     const es = new EventSource(url);

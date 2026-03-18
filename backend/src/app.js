@@ -32,12 +32,21 @@ function createApp() {
   app.use(compression());
   app.use(express.json({ limit: "200kb" }));
   app.use(cookieParser());
-  app.use(
-    cors({
-      origin: env.CORS_ORIGIN.split(",").map((s) => s.trim()),
-      credentials: true,
-    })
-  );
+  const allowedOrigins = env.CORS_ORIGIN.split(",").map((s) => s.trim()).filter(Boolean);
+  const corsOptions = {
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true);
+      if (allowedOrigins.includes("*")) return cb(null, true);
+      if (allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(null, false);
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  };
+
+  app.use(cors(corsOptions));
+  app.options("*", cors(corsOptions));
   app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
 
   app.get("/health", (req, res) => res.json({ ok: true }));

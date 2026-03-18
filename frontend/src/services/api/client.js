@@ -1,16 +1,8 @@
 import axios from "axios";
 import { useAuthStore } from "../../store/authStore";
+import { getApiBaseUrl } from "../../utils/apiBaseUrl";
 
-const envBaseURL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL;
-const defaultBaseURL =
-  typeof window !== "undefined" &&
-  window.location &&
-  typeof window.location.hostname === "string" &&
-  !["localhost", "127.0.0.1"].includes(window.location.hostname)
-    ? "https://volunteersync.onrender.com"
-    : "http://localhost:5000";
-
-const baseURL = (envBaseURL || defaultBaseURL).replace(/\/$/, "");
+const baseURL = getApiBaseUrl();
 export const api = axios.create({
   baseURL,
   withCredentials: true,

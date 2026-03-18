@@ -1,6 +1,7 @@
 import React from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getApiBaseUrl } from "../utils/apiBaseUrl";
 
 const storageKey = "vcs_auth";
 
@@ -50,7 +51,7 @@ export function useBootstrapAuth() {
 
     async function run() {
       try {
-        const base = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/$/, "");
+        const base = getApiBaseUrl();
         const res = await fetch(`${base}/api/auth/refresh`, {
           method: "POST",
           credentials: "include"
