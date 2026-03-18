@@ -1,20 +1,21 @@
-﻿import React from "react";
+import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { h } from "../../utils/h";
 import { listHours, verifyHours } from "../../services/api/hoursApi";
 import { Button } from "../../components/ui/Button";
+import { fmtHours } from "../../utils/format";
 
 function Row({ r, onVerify, isBusy }) {
   return h(
     "div",
-    { className: "flex items-center justify-between px-3 py-3" },
+    { className: "flex items-center justify-between px-4 py-3" },
     h(
       "div",
       null,
-      h("div", { className: "text-sm font-medium" }, `${r.hours}h`),
-      h("div", { className: "mt-0.5 text-xs text-neutral-500" }, `Volunteer: ${r.volunteerId}`),
-      h("div", { className: "mt-0.5 text-xs text-neutral-500" }, `Event: ${r.eventId}`)
+      h("div", { className: "text-sm font-semibold text-neutral-900" }, `${fmtHours(r.hours)}`),
+      h("div", { className: "mt-0.5 text-xs text-neutral-600" }, `Volunteer: ${r.volunteerId}`),
+      h("div", { className: "mt-0.5 text-xs text-neutral-600" }, `Event: ${r.eventId}`)
     ),
     h(
       Button,
@@ -44,16 +45,16 @@ export function HoursAdminPage() {
   return h(
     "div",
     { className: "space-y-4" },
-    h("div", { className: "text-base font-semibold" }, "Verify hours"),
-    query.isError ? h("div", { className: "text-sm text-red-600" }, "Failed to load hours") : null,
+    h("div", { className: "text-base font-semibold text-neutral-900" }, "Verify hours"),
+    query.isError ? h("div", { className: "text-sm text-rose-600" }, "Failed to load hours") : null,
     h(
       "div",
-      { className: "divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white" },
+      { className: "divide-y divide-neutral-200 overflow-hidden rounded-2xl border border-white/60 bg-white/70 shadow-sm backdrop-blur" },
       items.length
         ? items.map((r) =>
             h(Row, { key: r._id, r, isBusy: m.isPending, onVerify: (id, verified) => m.mutate({ id, verified }) })
           )
-        : h("div", { className: "px-3 py-10 text-center text-sm text-neutral-500" }, query.isLoading ? "Loading…" : "No pending records")
+        : h("div", { className: "px-4 py-10 text-center text-sm text-neutral-700" }, query.isLoading ? "Loading�" : "No pending records")
     )
   );
 }

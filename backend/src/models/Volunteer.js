@@ -19,6 +19,8 @@ const VolunteerSchema = new mongoose.Schema(
       index: true
     },
     skills: { type: [String], default: [], index: true },
+    gender: { type: String, trim: true, lowercase: true, maxlength: 24 },
+    age: { type: Number, min: 0, max: 130 },
     availability: { type: [AvailabilitySlotSchema], default: [] },
     totalHours: { type: Number, default: 0, min: 0 }
   },

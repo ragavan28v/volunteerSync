@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { motion } from "framer-motion";
 
 import { h } from "../../utils/h";
@@ -11,12 +11,16 @@ export function Button({
   onClick,
   className
 }) {
-  const base = "inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium";
+  const base =
+    "inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm font-semibold";
   const variants = {
-    primary: "bg-neutral-900 text-white active:bg-neutral-800",
-    ghost: "text-neutral-900 active:bg-neutral-100",
-    subtle: "bg-neutral-100 text-neutral-900 active:bg-neutral-200",
-    danger: "bg-red-600 text-white active:bg-red-700"
+    primary:
+      "bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-sm active:opacity-95",
+    subtle:
+      "bg-white/70 text-neutral-900 shadow-sm backdrop-blur active:bg-white",
+    ghost: "text-neutral-900 active:bg-white/60",
+    danger:
+      "bg-gradient-to-r from-rose-600 to-amber-500 text-white shadow-sm active:opacity-95"
   };
 
   return h(
@@ -25,7 +29,7 @@ export function Button({
       type,
       disabled,
       onClick,
-      whileTap: disabled ? undefined : { scale: 0.98 },
+      whileTap: disabled ? undefined : { scale: 0.96 },
       className: [
         base,
         variants[variant] || variants.primary,

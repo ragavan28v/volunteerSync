@@ -1,4 +1,4 @@
-﻿import { api } from "./client";
+import { api } from "./client";
 
 export async function listEvents(params) {
   const res = await api.get("/api/events", { params });
@@ -26,5 +26,25 @@ export async function deleteEvent(id) {
 
 export async function suggestVolunteers(eventId, payload) {
   const res = await api.post(`/api/events/${eventId}/suggest`, payload);
+  return res.data;
+}
+
+export async function recommendedEvents() {
+  const res = await api.get("/api/events/recommended");
+  return res.data;
+}
+
+export async function interestInEvent(eventId) {
+  const res = await api.post(`/api/events/${eventId}/interest`);
+  return res.data;
+}
+
+export async function raiseQuery(eventId, payload) {
+  const res = await api.post(`/api/events/${eventId}/query`, payload);
+  return res.data;
+}
+
+export async function autoFillEvent(eventId, payload) {
+  const res = await api.post(`/api/events/${eventId}/auto-fill`, payload || {});
   return res.data;
 }

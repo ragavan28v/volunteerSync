@@ -9,6 +9,7 @@ const AssignmentSchema = new mongoose.Schema(
       index: true
     },
     eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true, index: true },
+    shiftId: { type: mongoose.Schema.Types.ObjectId, index: true },
     shiftStart: { type: Date, required: true, index: true },
     shiftEnd: { type: Date, required: true, index: true },
     role: { type: String, trim: true, maxlength: 120 },

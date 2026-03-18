@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -29,7 +29,7 @@ export const useAuthStore = create(
 
       isAdmin: () => {
         const u = get().user;
-        return u && u.role === "admin";
+        return u && u.role === "ngo";
       }
     }),
     {
@@ -50,7 +50,7 @@ export function useBootstrapAuth() {
 
     async function run() {
       try {
-        const base = import.meta.env.VITE_API_BASE_URL;
+        const base = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/$/, "");
         const res = await fetch(`${base}/api/auth/refresh`, {
           method: "POST",
           credentials: "include"
@@ -60,8 +60,6 @@ export function useBootstrapAuth() {
           const data = await res.json();
           if (!cancelled) setSession({ accessToken: data.accessToken, user: data.user });
         } else {
-          // If there's no valid refresh cookie, keep persisted token (if any) but it might be expired.
-          // If user is missing, clear.
           const state = useAuthStore.getState();
           if (!state.user) clear();
         }

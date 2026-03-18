@@ -19,6 +19,8 @@ const assignmentRoutes = require("./routes/assignmentRoutes");
 const hoursRoutes = require("./routes/hoursRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const attendanceRoutes = require("./routes/attendanceRoutes");
 
 function createApp() {
   const app = express();
@@ -54,6 +56,8 @@ function createApp() {
   app.use("/api/hours", hoursRoutes);
   app.use("/api/analytics", analyticsRoutes);
   app.use("/api/reports", reportRoutes);
+  app.use("/api/notifications", notificationRoutes);
+  app.use("/api/attendance", attendanceRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

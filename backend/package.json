@@ -1,39 +1,35 @@
 {
-  "name": "volunteer-coordination-system-backend",
-  "private": true,
-  "type": "commonjs",
-  "main": "src/server.js",
-  "engines": {
-    "node": ">=18.18.0"
-  },
-  "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js",
-    "test": "jest --runInBand",
-    "seed": "node src/scripts/seedAdmin.js"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "compression": "^1.8.0",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dayjs": "^1.11.13",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-mongo-sanitize": "^2.2.0",
-    "express-rate-limit": "^7.4.0",
-    "helmet": "^7.1.0",
-    "hpp": "^0.2.3",
-    "joi": "^17.13.3",
-    "jsonwebtoken": "^9.0.2",
-    "json2csv": "^6.0.0-alpha.2",
-    "mongoose": "^8.6.3",
-    "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "nodemon": "^3.1.4",
-    "supertest": "^7.0.0"
-  }
+    "name":  "volunteer-coordination-system-backend",
+    "private":  true,
+    "type":  "commonjs",
+    "main":  "src/server.js",
+    "engines":  {
+                    "node":  "\u003e=18.18.0"
+                },
+    "scripts":  {
+                    "dev":  "node src/server.js",
+                    "start":  "node src/server.js",
+                    "test":  "node src/scripts/smokeHealth.js",
+                    "seed":  "node src/scripts/seedAdmin.js",
+                    "build":  "node -e \"console.log(\\\"backend: no build step\\\")\"",
+                    "dev:watch":  "node --watch src/server.js"
+                },
+    "dependencies":  {
+                         "bcryptjs":  "^2.4.3",
+                         "compression":  "^1.8.0",
+                         "cookie-parser":  "^1.4.6",
+                         "cors":  "^2.8.5",
+                         "dayjs":  "^1.11.13",
+                         "dotenv":  "^16.4.5",
+                         "express":  "^4.19.2",
+                         "express-mongo-sanitize":  "^2.2.0",
+                         "express-rate-limit":  "^7.4.0",
+                         "helmet":  "^7.1.0",
+                         "hpp":  "^0.2.3",
+                         "joi":  "^17.13.3",
+                         "jsonwebtoken":  "^9.0.2",
+                         "json2csv":  "^6.0.0-alpha.2",
+                         "mongoose":  "^8.6.3",
+                         "morgan":  "^1.10.0"
+                     }
 }
-

@@ -20,6 +20,12 @@ const EventSchema = new mongoose.Schema(
     requiredVolunteers: { type: Number, default: 1, min: 1 },
     requiredSkills: { type: [String], default: [] },
     shifts: { type: [ShiftSchema], default: [] },
+    contact: { type: String, trim: true, maxlength: 160 },
+    restrictions: {
+      gender: { type: String, trim: true, lowercase: true, default: "any" },
+      minAge: { type: Number, min: 0, max: 130 },
+      maxAge: { type: Number, min: 0, max: 130 }
+    },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
   },
   { timestamps: true }

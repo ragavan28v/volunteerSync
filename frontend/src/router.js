@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { h } from "./utils/h";
@@ -26,7 +26,7 @@ function RequireAuth({ children }) {
 
 function RequireAdmin({ children }) {
   const user = useAuthStore((s) => s.user);
-  if (!user || user.role !== "admin") return h(Navigate, { to: "/app", replace: true });
+  if (!user || user.role !== "ngo") return h(Navigate, { to: "/app", replace: true });
   return children;
 }
 

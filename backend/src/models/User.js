@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema(
       index: true
     },
     phone: { type: String, trim: true, maxlength: 30 },
-    role: { type: String, required: true, enum: ["admin", "volunteer"], index: true },
+    role: { type: String, required: true, enum: ["ngo", "volunteer"], index: true },
     passwordHash: { type: String, required: true },
     refreshTokenHash: { type: String },
     lastLoginAt: { type: Date }
@@ -21,4 +21,3 @@ const UserSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("User", UserSchema);
-

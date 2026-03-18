@@ -9,7 +9,7 @@ function overlaps(aStart, aEnd, bStart, bEnd) {
 
 async function createAssignment(req, res, next) {
   try {
-    const { volunteerId, eventId, shiftStart, shiftEnd, role, status } = req.body;
+    const { volunteerId, eventId, shiftId, shiftStart, shiftEnd, role, status } = req.body;
 
     const [volunteer, event] = await Promise.all([
       Volunteer.findById(volunteerId).lean(),
@@ -32,13 +32,17 @@ async function createAssignment(req, res, next) {
 
     if (existing.length) throw httpError(409, "Volunteer has an overlapping assignment");
 
-    // capacity check: if event has an exact matching shift, enforce requiredVolunteers
-    const matchingShift = (event.shifts || []).find(
-      (sh) => new Date(sh.start).getTime() === sStart.getTime() && new Date(sh.end).getTime() === sEnd.getTime()
-    );
+    // capacity check: if event has a matching shift, enforce requiredVolunteers
+    const matchingShift = shiftId
+      ? (event.shifts || []).find((sh) => String(sh._id) === String(shiftId))
+      : (event.shifts || []).find(
+          (sh) => new Date(sh.start).getTime() === sStart.getTime() && new Date(sh.end).getTime() === sEnd.getTime()
+        );
+
     if (matchingShift) {
       const assignedCount = await Assignment.countDocuments({
         eventId: event._id,
+      shiftId: matchingShift ? matchingShift._id : undefined,
         status: { $ne: "cancelled" },
         shiftStart: sStart,
         shiftEnd: sEnd
@@ -51,6 +55,7 @@ async function createAssignment(req, res, next) {
     const assignment = await Assignment.create({
       volunteerId: volunteer._id,
       eventId: event._id,
+      shiftId: matchingShift ? matchingShift._id : undefined,
       shiftStart: sStart,
       shiftEnd: sEnd,
       role: role || "",
@@ -99,7 +104,18 @@ async function myAssignments(req, res, next) {
       .limit(200)
       .lean();
 
-    res.json({ items });
+    const events = await Event.find({ _id: { $in: items.map((a) => a.eventId) } })
+      .select({ title: 1, location: 1, contact: 1, startDate: 1, endDate: 1 })
+      .lean();
+
+    const eventById = new Map(events.map((e) => [String(e._id), e]));
+
+    res.json({
+      items: items.map((a) => ({
+        ...a,
+        event: eventById.get(String(a.eventId)) || null
+      }))
+    });
   } catch (err) {
     next(err);
   }
